@@ -52,7 +52,7 @@ func (s Stdout) Print(level int, message string) error {
 
 	//Check if we want to log this
 	if level >= s.MinLevel {
-		log.Println(level, message)
+		//log.Println(level, message)
 		return stderr_std_logger.Output(d, msg)
 	}
 
