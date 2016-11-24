@@ -46,14 +46,15 @@ func (s Stdout) std_format_message(level int, message string) (int, string) {
 func (s Stdout) Print(level int, message string) error {
 	d, msg := s.std_format_message(level, message)
 
-	if level <= INFO {
+	if level == INFO {
 		return stdout_std_logger.Output(d, msg)
 	}
 
 	//Check if we want to log this
 	if level >= s.MinLevel {
 		log.Println(level, message)
+		return stderr_std_logger.Output(d, msg)
 	}
 
-	return stderr_std_logger.Output(d, msg)
+	return nil
 }
