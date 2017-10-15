@@ -1,5 +1,7 @@
 package logger
 
+import "fmt"
+
 type Logger struct {
 	module string
 }
@@ -11,41 +13,69 @@ func New(module string) *Logger {
 }
 
 func (l *Logger) Debug(v ...interface{}) {
-	Debug(l.module, v)
+	for _, output := range outputs {
+		output.Print(DEBUG, fmt.Sprint(l.module, v))
+	}
 }
 
 func (l *Logger) Debugf(format string, v ...interface{}) {
-	Debugf(l.module+"	"+format, v)
+	for _, output := range outputs {
+		output.Print(DEBUG, fmt.Sprintf(l.module+"	"+format, v...))
+	}
 }
 
 func (l *Logger) Info(v ...interface{}) {
-	Info(l.module, v)
+	for _, output := range outputs {
+		output.Print(INFO, fmt.Sprint(l.module, v))
+	}
 }
 
 func (l *Logger) Infof(format string, v ...interface{}) {
-	Infof(l.module+"	"+format, v)
+	for _, output := range outputs {
+		output.Print(INFO, fmt.Sprintf(l.module+"	"+format, v...))
+	}
 }
 
 func (l *Logger) Warning(v ...interface{}) {
-	Warning(l.module, v)
+	for _, output := range outputs {
+		output.Print(WARNING, fmt.Sprint(l.module, v))
+	}
 }
 
 func (l *Logger) Warningf(format string, v ...interface{}) {
-	Warningf(l.module+"	"+format, v)
+	for _, output := range outputs {
+		output.Print(WARNING, fmt.Sprintf(l.module+"	"+format, v...))
+	}
 }
 
 func (l *Logger) Error(v ...interface{}) {
-	Error(l.module, v)
+	for _, output := range outputs {
+		output.Print(ERROR, fmt.Sprint(l.module, v))
+	}
 }
 
 func (l *Logger) Errorf(format string, v ...interface{}) {
-	Errorf(l.module+"	"+format, v)
+	for _, output := range outputs {
+		output.Print(ERROR, fmt.Sprintf(l.module+"	"+format, v...))
+	}
 }
 
 func (l *Logger) Fatal(v ...interface{}) {
-	Fatal(l.module, v)
+	s := fmt.Sprint(v...)
+
+	for _, output := range outputs {
+		output.Print(FATAL, s)
+	}
+
+	panic(s)
 }
 
 func (l *Logger) Fatalf(format string, v ...interface{}) {
-	Fatalf(l.module+"	"+format, v)
+	s := fmt.Sprintf(format, v...)
+
+	for _, output := range outputs {
+		output.Print(FATAL, s)
+	}
+
+	panic(s)
 }
