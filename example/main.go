@@ -7,11 +7,14 @@ func main() {
 		MinLevel: logger.INFO, //logger.DEBUG,
 		Colored:  true,
 	})
-	fileOut, err := logger.NewFileOut("/tmp/test.log")
+	fileOut, err := logger.NewFileOut("/tmp/test.log", logger.INFO)
 	if err != nil {
 		panic(err)
 	}
 	logger.AddOutput(fileOut)
 
-	logger.Infof("test!")
+	logger.Info("info message test!")
+	logger.Debug("debug message test")
+	logger.Warning("warning message test")
+	logger.Error("error message test")
 }
